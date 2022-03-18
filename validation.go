@@ -9,17 +9,17 @@ import (
 	"os"
 	"time"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/dfuse-io/eosio-boot/ops"
-	"github.com/eoscanada/eos-go"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/invisible-train-40/eosio-boot/ops"
+	"github.com/zhongshuwen/zswchain-go"
 	"go.uber.org/zap"
 )
 
-type ActionMap map[string]*eos.Action
+type ActionMap map[string]*zsw.Action
 
 func (b *Boot) RunChainValidation(opConfig *config.OpConfig) (bool, error) {
 	bootSeqMap := ActionMap{}
-	bootSeq := []*eos.Action{}
+	bootSeq := []*zsw.Action{}
 
 	trxEventCh := make(chan interface{}, 500)
 	go func() {
@@ -51,10 +51,10 @@ func (b *Boot) RunChainValidation(opConfig *config.OpConfig) (bool, error) {
 		switch v := act.(type) {
 		case ops.TransactionBoundary:
 		case *ops.TransactionAction:
-			action := (*eos.Action)(v)
+			action := (*zsw.Action)(v)
 			if action != nil {
 				action.SetToServer(true)
-				data, err := eos.MarshalBinary(action)
+				data, err := zsw.MarshalBinary(action)
 				if err != nil {
 					return false, fmt.Errorf("validating: binary marshalling: %s", err)
 				}
@@ -84,7 +84,7 @@ func (b *Boot) RunChainValidation(opConfig *config.OpConfig) (bool, error) {
 	return true, nil
 }
 
-func (b *Boot) validateTargetNetwork(bootSeqMap ActionMap, bootSeq []*eos.Action) (err error) {
+func (b *Boot) validateTargetNetwork(bootSeqMap ActionMap, bootSeq []*zsw.Action) (err error) {
 	expectedActionCount := len(bootSeq)
 	validationErrors := make([]error, 0)
 
@@ -141,7 +141,7 @@ func (b *Boot) validateTargetNetwork(bootSeqMap ActionMap, bootSeq []*eos.Action
 
 			for _, act := range unpacked.Actions {
 				act.SetToServer(false)
-				data, err := eos.MarshalBinary(act)
+				data, err := zsw.MarshalBinary(act)
 				if err != nil {
 					b.logger.Error("Error marshalling an action", zap.Error(err))
 					validationErrors = append(validationErrors, ValidationError{
@@ -190,7 +190,7 @@ func (b *Boot) validateTargetNetwork(bootSeqMap ActionMap, bootSeq []*eos.Action
 	return nil
 }
 
-func (b *Boot) flushMissingActions(seenMap map[string]bool, bootSeq []*eos.Action) {
+func (b *Boot) flushMissingActions(seenMap map[string]bool, bootSeq []*zsw.Action) {
 	fl, err := os.Create("missing_actions.jsonl")
 	if err != nil {
 		b.logger.Error("Couldn't write to `missing_actions.jsonl`:", zap.Error(err))
@@ -203,7 +203,7 @@ func (b *Boot) flushMissingActions(seenMap map[string]bool, bootSeq []*eos.Actio
 
 	for _, act := range bootSeq {
 		act.SetToServer(true)
-		data, _ := eos.MarshalBinary(act)
+		data, _ := zsw.MarshalBinary(act)
 		key := sha2(data)
 
 		if !seenMap[key] {
@@ -218,11 +218,11 @@ func (b *Boot) flushMissingActions(seenMap map[string]bool, bootSeq []*eos.Actio
 type ValidationError struct {
 	Err               error
 	BlockNumber       int
-	Action            *eos.Action
+	Action            *zsw.Action
 	RawAction         []byte
 	Index             int
 	ActionHexData     string
-	PackedTransaction *eos.PackedTransaction
+	PackedTransaction *zsw.PackedTransaction
 }
 
 func (e ValidationError) Error() string {

@@ -3,10 +3,10 @@ package ops
 import (
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 type OpSystemInit struct {
-	Version eos.Varuint32 `json:"version"`
+	Version zsw.Varuint32 `json:"version"`
 	Core    string        `json:"core"`
 }
 
@@ -23,7 +23,7 @@ func (op *OpSystemInit) RequireValidation() bool {
 }
 
 func (op *OpSystemInit) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan interface{}) error {
-	core, err := eos.StringToSymbol(op.Core)
+	core, err := zsw.StringToSymbol(op.Core)
 	if err != nil {
 		return fmt.Errorf("unable to convert system.init core %q to symbol: %w", op.Core, err)
 	}

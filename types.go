@@ -1,6 +1,6 @@
 package boot
 
-import "github.com/eoscanada/eos-go"
+import "github.com/zhongshuwen/zswchain-go"
 
 //accts/dfu/se44shine/tables/posts/eo/scanadacom.json
 //accts/{[acc]/[ountName]}/contract.wasm
@@ -15,7 +15,7 @@ import "github.com/eoscanada/eos-go"
 //account dfuse.boot setCode wasm.contract
 type TableRow struct {
 	Payer string       `json:"payer"`
-	Data  eos.HexBytes `json:"data"`
+	Data  zsw.HexBytes `json:"data"`
 }
 
 // base contract that print data length

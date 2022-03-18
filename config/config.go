@@ -5,29 +5,29 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dfuse-io/eosio-boot/content"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/content"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 	"go.uber.org/zap"
 )
 
 type abiCache struct {
-	nodeApi *eos.API
-	abis    map[eos.AccountName]*eos.ABI
+	nodeApi *zsw.API
+	abis    map[zsw.AccountName]*zsw.ABI
 }
 
-func newAbiCache(nodeApi *eos.API) *abiCache {
+func newAbiCache(nodeApi *zsw.API) *abiCache {
 	return &abiCache{
 		nodeApi: nodeApi,
-		abis:    map[eos.AccountName]*eos.ABI{},
+		abis:    map[zsw.AccountName]*zsw.ABI{},
 	}
 }
 
-func (a *abiCache) SetABI(accountName eos.AccountName, abi *eos.ABI) {
+func (a *abiCache) SetABI(accountName zsw.AccountName, abi *zsw.ABI) {
 	a.abis[accountName] = abi
 }
 
-func (a *abiCache) GetABI(accountName eos.AccountName) (*eos.ABI, error) {
+func (a *abiCache) GetABI(accountName zsw.AccountName) (*zsw.ABI, error) {
 	if abi, found := a.abis[accountName]; found {
 		return abi, nil
 	}
@@ -47,13 +47,13 @@ type OpConfig struct {
 	contentRefs      []*content.ContentRef
 	privateKeys      map[string]*ecc.PrivateKey
 	contentManager   *content.Manager
-	protocolFeatures []eos.ProtocolFeature
-	API              *eos.API
+	protocolFeatures []zsw.ProtocolFeature
+	API              *zsw.API
 	AbiCache         *abiCache
 	Logger           *zap.Logger
 }
 
-func NewOpConfig(contentRefs []*content.ContentRef, contentManager *content.Manager, privateKeys map[string]*ecc.PrivateKey, api *eos.API, protocolFeatures []eos.ProtocolFeature, logger *zap.Logger) *OpConfig {
+func NewOpConfig(contentRefs []*content.ContentRef, contentManager *content.Manager, privateKeys map[string]*ecc.PrivateKey, api *zsw.API, protocolFeatures []zsw.ProtocolFeature, logger *zap.Logger) *OpConfig {
 	return &OpConfig{
 		contentRefs:      contentRefs,
 		privateKeys:      privateKeys,
@@ -65,7 +65,7 @@ func NewOpConfig(contentRefs []*content.ContentRef, contentManager *content.Mana
 	}
 }
 
-func (c OpConfig) GetProtocolFeature(name string) eos.Checksum256 {
+func (c OpConfig) GetProtocolFeature(name string) zsw.Checksum256 {
 	name = strings.ToUpper(name)
 	for _, protocolFeature := range c.protocolFeatures {
 		for _, spec := range protocolFeature.Specification {

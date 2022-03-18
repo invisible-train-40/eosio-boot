@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
 func init() {
@@ -14,10 +14,10 @@ func init() {
 }
 
 type OpPushTransaction struct {
-	Contract   eos.AccountName
-	Action     eos.ActionName
-	Actor      eos.AccountName
-	Permission eos.PermissionName
+	Contract   zsw.AccountName
+	Action     zsw.ActionName
+	Actor      zsw.AccountName
+	Permission zsw.PermissionName
 	Payload    map[string]interface{}
 }
 
@@ -38,13 +38,13 @@ func (op *OpPushTransaction) Actions(opPubkey ecc.PublicKey, c *config.OpConfig,
 
 	actionBinary, err := abi.EncodeAction(op.Action, []byte(cnt))
 
-	action := &eos.Action{
+	action := &zsw.Action{
 		Account: op.Contract,
 		Name:    op.Action,
-		Authorization: []eos.PermissionLevel{
+		Authorization: []zsw.PermissionLevel{
 			{Actor: op.Actor, Permission: op.Permission},
 		},
-		ActionData: eos.NewActionDataFromHexData(actionBinary),
+		ActionData: zsw.NewActionDataFromHexData(actionBinary),
 	}
 	in <- (*TransactionAction)(action)
 	in <- EndTransaction(opPubkey) // end transaction

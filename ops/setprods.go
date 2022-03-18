@@ -1,10 +1,10 @@
 package ops
 
 import (
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 	"go.uber.org/zap"
 )
 
@@ -59,6 +59,6 @@ func (op *OpSetProds) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in cha
 }
 
 type producerKeyString struct {
-	ProducerName          eos.AccountName `json:"producer_name"`
+	ProducerName          zsw.AccountName `json:"producer_name"`
 	BlockSigningKeyString string          `json:"block_signing_key"`
 }

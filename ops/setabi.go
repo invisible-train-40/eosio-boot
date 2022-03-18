@@ -3,10 +3,10 @@ package ops
 import (
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 type OpSetABI struct {
-	Account         eos.AccountName
+	Account         zsw.AccountName
 	ContractNameRef string `json:"contract_name_ref"`
 }
 
@@ -39,7 +39,7 @@ func (op *OpSetABI) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan 
 	}
 
 	c.AbiCache.SetABI(op.Account, abi)
-	for _, act := range []*eos.Action{abiAction} {
+	for _, act := range []*zsw.Action{abiAction} {
 		in <- (*TransactionAction)(act)
 	}
 

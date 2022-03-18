@@ -5,8 +5,8 @@ import (
 	"encoding/csv"
 	"fmt"
 
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
 type Snapshot []SnapshotLine
@@ -14,7 +14,7 @@ type Snapshot []SnapshotLine
 type SnapshotLine struct {
 	EthereumAddress string
 	EOSPublicKey    ecc.PublicKey
-	Balance         eos.Asset
+	Balance         zsw.Asset
 	AccountName     string
 }
 
@@ -30,7 +30,7 @@ func New(content []byte) (out Snapshot, err error) {
 			return nil, fmt.Errorf("should have 4 elements per line")
 		}
 
-		newAsset, err := eos.NewEOSAssetFromString(el[3])
+		newAsset, err := zsw.NewEOSAssetFromString(el[3])
 		if err != nil {
 			return out, err
 		}
@@ -51,7 +51,7 @@ type UnregdSnapshot []UnregdSnapshotLine
 type UnregdSnapshotLine struct {
 	EthereumAddress string
 	AccountName     string
-	Balance         eos.Asset
+	Balance         zsw.Asset
 }
 
 func NewUnregd(content []byte) (out UnregdSnapshot, err error) {
@@ -66,7 +66,7 @@ func NewUnregd(content []byte) (out UnregdSnapshot, err error) {
 			return nil, fmt.Errorf("should have 2 elements per line")
 		}
 
-		newAsset, err := eos.NewEOSAssetFromString(el[2])
+		newAsset, err := zsw.NewEOSAssetFromString(el[2])
 		if err != nil {
 			return out, err
 		}

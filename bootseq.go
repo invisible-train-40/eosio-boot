@@ -3,8 +3,8 @@ package boot
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/dfuse-io/eosio-boot/content"
-	"github.com/dfuse-io/eosio-boot/ops"
+	"github.com/invisible-train-40/eosio-boot/content"
+	"github.com/invisible-train-40/eosio-boot/ops"
 	"io/ioutil"
 )
 

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 	"go.uber.org/zap"
 )
 
@@ -31,7 +31,7 @@ func (op *OpEnableProtocolFeature) Actions(opPubkey ecc.PublicKey, c *config.OpC
 	}
 
 	c.Logger.Info("activating protocol features!")
-	err := c.API.ScheduleProducerProtocolFeatureActivations(ctx, []eos.Checksum256{featureDigest})
+	err := c.API.ScheduleProducerProtocolFeatureActivations(ctx, []zsw.Checksum256{featureDigest})
 	if err != nil {
 		c.Logger.Error("cannot enable protocol feature %q: %w",
 			zap.Error(err),

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
 type Operation interface {
@@ -17,7 +17,7 @@ type Operation interface {
 
 var operationsRegistry = map[string]Operation{}
 
-type TransactionAction eos.Action
+type TransactionAction zsw.Action
 
 type TransactionBoundary struct {
 	Signer ecc.PublicKey

@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 	"go.uber.org/zap"
 )
 
 func (b *Boot) setKeys() error {
 	if b.keyBag == nil {
 		b.logger.Info("key bag not preset")
-		b.keyBag = eos.NewKeyBag()
+		b.keyBag = zsw.NewKeyBag()
 	}
 
 	for label, privKey := range b.bootseqKeys {

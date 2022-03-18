@@ -1,10 +1,10 @@
 package ops
 
 import (
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/token"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/token"
 )
 
 func init() {
@@ -13,9 +13,9 @@ func init() {
 
 type OpCreateToken struct {
 	// TODO: this should have be Issuer
-	Account eos.AccountName `json:"account"`
+	Account zsw.AccountName `json:"account"`
 	// TODO: this should be MaximumSupply
-	Amount eos.Asset `json:"amount"`
+	Amount zsw.Asset `json:"amount"`
 }
 
 func (op *OpCreateToken) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan interface{}) error {

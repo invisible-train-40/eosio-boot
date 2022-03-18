@@ -1,10 +1,10 @@
 package ops
 
 import (
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 type OpSetPriv struct {
-	Account eos.AccountName
+	Account zsw.AccountName
 }
 
 func (op *OpSetPriv) RequireValidation() bool {

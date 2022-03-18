@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/eoscanada/eos-go/system"
+	"github.com/zhongshuwen/zswchain-go/system"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
 func init() {
@@ -25,12 +25,12 @@ func (op *ActivateProtocolFeatures) RequireValidation() bool {
 }
 
 func (op *ActivateProtocolFeatures) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan interface{}) (err error) {
-	actions := []*eos.Action{}
+	actions := []*zsw.Action{}
 
 	protocolRegExp := regexp.MustCompile(`^[a-zA-Z][a-zA-Z_]+[a-zA-Z]$`)
 
 	for _, feature := range op.Features {
-		var featureDigest eos.Checksum256
+		var featureDigest zsw.Checksum256
 
 		if protocolRegExp.Match([]byte(feature)) {
 			featureDigest = c.GetProtocolFeature(feature)

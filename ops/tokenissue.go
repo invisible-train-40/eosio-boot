@@ -1,10 +1,10 @@
 package ops
 
 import (
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/token"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/token"
 )
 
 func init() {
@@ -12,8 +12,8 @@ func init() {
 }
 
 type OpIssueToken struct {
-	Account eos.AccountName
-	Amount  eos.Asset
+	Account zsw.AccountName
+	Amount  zsw.Asset
 	Memo    string
 }
 

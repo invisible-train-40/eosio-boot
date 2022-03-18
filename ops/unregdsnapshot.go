@@ -3,11 +3,11 @@ package ops
 import (
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/dfuse-io/eosio-boot/snapshot"
-	"github.com/dfuse-io/eosio-boot/unregd"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/token"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/invisible-train-40/eosio-boot/snapshot"
+	"github.com/invisible-train-40/eosio-boot/unregd"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/token"
 	"go.uber.org/zap"
 )
 

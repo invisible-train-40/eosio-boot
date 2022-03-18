@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
-var AN = eos.AN
-var ActN = eos.ActN
-var PN = eos.PN
+var AN = zsw.AN
+var ActN = zsw.ActN
+var PN = zsw.PN
 
 func decodeOpPublicKey(c *config.OpConfig, opPubKey string) (ecc.PublicKey, error) {
 	privateKey, err := c.GetPrivateKey(opPubKey)
@@ -42,7 +42,7 @@ func getBootKey(c *config.OpConfig) (ecc.PublicKey, error) {
 	return ecc.PublicKey{}, fmt.Errorf("cannot find boot/ephemeral key")
 }
 
-func retrieveABIfromRef(abiPath string) (*eos.ABI, error) {
+func retrieveABIfromRef(abiPath string) (*zsw.ABI, error) {
 	abiContent, err := ioutil.ReadFile(abiPath)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func retrieveABIfromRef(abiPath string) (*eos.ABI, error) {
 		return nil, fmt.Errorf("unable to unmarshal abi with 0 bytes")
 	}
 
-	var abiDef eos.ABI
+	var abiDef zsw.ABI
 	if err := json.Unmarshal(abiContent, &abiDef); err != nil {
 		return nil, fmt.Errorf("unmarshal ABI file: %s", err)
 	}

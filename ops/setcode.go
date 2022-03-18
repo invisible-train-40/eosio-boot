@@ -3,10 +3,10 @@ package ops
 import (
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 type OpSetCode struct {
-	Account         eos.AccountName
+	Account         zsw.AccountName
 	ContractNameRef string `json:"contract_name_ref"`
 	PermissionLevel string `json:"permission_level"`
 }
@@ -52,13 +52,13 @@ func (op *OpSetCode) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan
 	c.AbiCache.SetABI(op.Account, abi)
 
 	if op.PermissionLevel != "" {
-		permissionLevel, err := eos.NewPermissionLevel(op.PermissionLevel)
+		permissionLevel, err := zsw.NewPermissionLevel(op.PermissionLevel)
 		if err != nil {
 			return fmt.Errorf("unable to read permission level: %w", err)
 		}
 
-		codeAction.Authorization = []eos.PermissionLevel{permissionLevel}
-		abiAction.Authorization = []eos.PermissionLevel{permissionLevel}
+		codeAction.Authorization = []zsw.PermissionLevel{permissionLevel}
+		abiAction.Authorization = []zsw.PermissionLevel{permissionLevel}
 	}
 
 	in <- (*TransactionAction)(codeAction)

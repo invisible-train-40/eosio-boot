@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go/ecc"
 )
 
 func init() {

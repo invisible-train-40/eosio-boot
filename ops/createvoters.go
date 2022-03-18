@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
-	"github.com/eoscanada/eos-go/token"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
+	"github.com/zhongshuwen/zswchain-go/token"
 )
 
 func init() {
@@ -16,7 +16,7 @@ func init() {
 }
 
 type OpCreateVoters struct {
-	Creator eos.AccountName
+	Creator zsw.AccountName
 	Pubkey  string
 	Count   int
 }
@@ -32,13 +32,13 @@ func (op *OpCreateVoters) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in
 	}
 
 	for i := 0; i < op.Count; i++ {
-		voterName := eos.AccountName(voterName(i))
+		voterName := zsw.AccountName(voterName(i))
 		fmt.Println("Creating voter: ", voterName)
 
 		in <- (*TransactionAction)(system.NewNewAccount(op.Creator, voterName, pubKey))
-		in <- (*TransactionAction)(token.NewTransfer(op.Creator, voterName, eos.NewEOSAsset(1000000000), ""))
+		in <- (*TransactionAction)(token.NewTransfer(op.Creator, voterName, zsw.NewEOSAsset(1000000000), ""))
 		in <- (*TransactionAction)(system.NewBuyRAMBytes(AN("eosio"), voterName, 8192)) // 8kb gift !
-		in <- (*TransactionAction)(system.NewDelegateBW(AN("eosio"), voterName, eos.NewEOSAsset(10000), eos.NewEOSAsset(10000), true))
+		in <- (*TransactionAction)(system.NewDelegateBW(AN("eosio"), voterName, zsw.NewEOSAsset(10000), zsw.NewEOSAsset(10000), true))
 	}
 	in <- EndTransaction(opPubkey) // end transaction
 	return nil

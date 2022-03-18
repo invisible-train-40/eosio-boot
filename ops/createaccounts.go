@@ -3,12 +3,12 @@ package ops
 import (
 	"fmt"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/dfuse-io/eosio-boot/snapshot"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
-	"github.com/eoscanada/eos-go/token"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/invisible-train-40/eosio-boot/snapshot"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
+	"github.com/zhongshuwen/zswchain-go/token"
 	"go.uber.org/zap"
 )
 
@@ -76,7 +76,7 @@ func (op *OpSnapshotCreateAccounts) Actions(opPubkey ecc.PublicKey, c *config.Op
 	return nil
 }
 
-func splitSnapshotStakes(balance eos.Asset) (cpu, net, xfer eos.Asset) {
+func splitSnapshotStakes(balance zsw.Asset) (cpu, net, xfer zsw.Asset) {
 	if balance.Amount < 5000 {
 		return
 	}
@@ -85,10 +85,10 @@ func splitSnapshotStakes(balance eos.Asset) (cpu, net, xfer eos.Asset) {
 	// some 10 EOS unstaked
 	// the rest split between the two
 
-	cpu = eos.NewEOSAsset(2500)
-	net = eos.NewEOSAsset(2500)
+	cpu = zsw.NewEOSAsset(2500)
+	net = zsw.NewEOSAsset(2500)
 
-	remainder := eos.NewEOSAsset(int64(balance.Amount - cpu.Amount - net.Amount))
+	remainder := zsw.NewEOSAsset(int64(balance.Amount - cpu.Amount - net.Amount))
 
 	if remainder.Amount <= 100000 /* 10.0 EOS */ {
 		return cpu, net, remainder
@@ -100,5 +100,5 @@ func splitSnapshotStakes(balance eos.Asset) (cpu, net, xfer eos.Asset) {
 	cpu.Amount += firstHalf
 	net.Amount += remainder.Amount - firstHalf
 
-	return cpu, net, eos.NewEOSAsset(100000)
+	return cpu, net, zsw.NewEOSAsset(100000)
 }

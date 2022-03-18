@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/dfuse-io/eosio-boot/content"
-	"github.com/dfuse-io/eosio-boot/ops"
-	"github.com/dfuse-io/eosio-boot/snapshot"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/invisible-train-40/eosio-boot/content"
+	"github.com/invisible-train-40/eosio-boot/ops"
+	"github.com/invisible-train-40/eosio-boot/snapshot"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 	"go.uber.org/zap"
 )
 
@@ -40,7 +40,7 @@ func WithMaxActionCountPerTrx(max int) Option {
 	})
 }
 
-func WithKeyBag(keyBag *eos.KeyBag) Option {
+func WithKeyBag(keyBag *zsw.KeyBag) Option {
 	return funcOption(func(b *Boot) {
 		b.keyBag = keyBag
 	})
@@ -63,12 +63,12 @@ type Boot struct {
 	Snapshot snapshot.Snapshot
 
 	bootSequencePath     string
-	targetNetAPI         *eos.API
+	targetNetAPI         *zsw.API
 	bootstrappingEnabled bool
 	genesisPath          string
 	bootSequence         *BootSeq
 	contentManager       *content.Manager
-	keyBag               *eos.KeyBag
+	keyBag               *zsw.KeyBag
 	bootseqKeys          map[string]*ecc.PrivateKey
 	maxActionCountPerTrx int
 	hackVotingAccounts   bool
@@ -76,7 +76,7 @@ type Boot struct {
 	logger *zap.Logger
 }
 
-func New(bootSequencePath string, targetAPI *eos.API, cachePath string, opts ...Option) (b *Boot, err error) {
+func New(bootSequencePath string, targetAPI *zsw.API, cachePath string, opts ...Option) (b *Boot, err error) {
 	b = &Boot{
 		targetNetAPI:         targetAPI,
 		bootSequencePath:     bootSequencePath,
@@ -195,7 +195,7 @@ func (b *Boot) Run() (checksums string, err error) {
 			zap.Int("action_count", len(trxBundle.actions)),
 			zap.String("actions", strings.Join(str, ", ")),
 		)
-		b.targetNetAPI.SetCustomGetRequiredKeys(func(ctx context.Context, tx *eos.Transaction) (out []ecc.PublicKey, err error) {
+		b.targetNetAPI.SetCustomGetRequiredKeys(func(ctx context.Context, tx *zsw.Transaction) (out []ecc.PublicKey, err error) {
 			out = append(out, trxBundle.signer)
 			return out, nil
 		})
@@ -238,7 +238,7 @@ func (b *Boot) Run() (checksums string, err error) {
 }
 
 type transactionBundle struct {
-	actions []*eos.Action
+	actions []*zsw.Action
 	signer  ecc.PublicKey
 }
 
@@ -292,7 +292,7 @@ func (t *transactionBundle) debugPrint(logger *zap.Logger) {
 
 func (b *Boot) chunkifyActionChan(trxEventCh chan interface{}) *transactionBundle {
 	out := &transactionBundle{
-		actions: []*eos.Action{},
+		actions: []*zsw.Action{},
 	}
 	for {
 		if len(out.actions) > b.maxActionCountPerTrx {
@@ -308,7 +308,7 @@ func (b *Boot) chunkifyActionChan(trxEventCh chan interface{}) *transactionBundl
 			out.signer = v.Signer
 			return out
 		case *ops.TransactionAction:
-			out.actions = append(out.actions, (*eos.Action)(v))
+			out.actions = append(out.actions, (*zsw.Action)(v))
 		default:
 			panic(fmt.Sprintf("chunkify: unexpected type in action chan"))
 		}

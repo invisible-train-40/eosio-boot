@@ -1,10 +1,10 @@
 package ops
 
 import (
-	"github.com/dfuse-io/eosio-boot/config"
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/invisible-train-40/eosio-boot/config"
+	"github.com/zhongshuwen/zswchain-go"
+	"github.com/zhongshuwen/zswchain-go/ecc"
+	"github.com/zhongshuwen/zswchain-go/system"
 )
 
 func init() {
@@ -12,8 +12,8 @@ func init() {
 }
 
 type OpNewAccount struct {
-	Creator    eos.AccountName
-	NewAccount eos.AccountName `json:"new_account"`
+	Creator    zsw.AccountName
+	NewAccount zsw.AccountName `json:"new_account"`
 	Pubkey     string
 	RamBytes   uint32 `json:"ram_bytes"`
 }
