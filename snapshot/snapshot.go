@@ -30,7 +30,7 @@ func New(content []byte) (out Snapshot, err error) {
 			return nil, fmt.Errorf("should have 4 elements per line")
 		}
 
-		newAsset, err := zsw.NewEOSAssetFromString(el[3])
+		newAsset, err := zsw.NewZSWAssetFromString(el[3])
 		if err != nil {
 			return out, err
 		}
@@ -66,7 +66,7 @@ func NewUnregd(content []byte) (out UnregdSnapshot, err error) {
 			return nil, fmt.Errorf("should have 2 elements per line")
 		}
 
-		newAsset, err := zsw.NewEOSAssetFromString(el[2])
+		newAsset, err := zsw.NewZSWAssetFromString(el[2])
 		if err != nil {
 			return out, err
 		}
