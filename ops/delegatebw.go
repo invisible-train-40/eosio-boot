@@ -20,7 +20,7 @@ type OpDelegateBW struct {
 }
 
 func (op *OpDelegateBW) Actions(opPubkey ecc.PublicKey, c *config.OpConfig, in chan interface{}) error {
-	in <- (*TransactionAction)(system.NewDelegateBW(op.From, op.To, zsw.NewEOSAsset(op.StakeCPU), zsw.NewEOSAsset(op.StakeNet), op.Transfer))
+	in <- (*TransactionAction)(system.NewDelegateBW(op.From, op.To, zsw.NewZSWAsset(op.StakeCPU), zsw.NewZSWAsset(op.StakeNet), op.Transfer))
 	in <- EndTransaction(opPubkey) // end transaction
 	return nil
 }

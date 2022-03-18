@@ -85,10 +85,10 @@ func splitSnapshotStakes(balance zsw.Asset) (cpu, net, xfer zsw.Asset) {
 	// some 10 EOS unstaked
 	// the rest split between the two
 
-	cpu = zsw.NewEOSAsset(2500)
-	net = zsw.NewEOSAsset(2500)
+	cpu = zsw.NewZSWAsset(2500)
+	net = zsw.NewZSWAsset(2500)
 
-	remainder := zsw.NewEOSAsset(int64(balance.Amount - cpu.Amount - net.Amount))
+	remainder := zsw.NewZSWAsset(int64(balance.Amount - cpu.Amount - net.Amount))
 
 	if remainder.Amount <= 100000 /* 10.0 EOS */ {
 		return cpu, net, remainder
@@ -100,5 +100,5 @@ func splitSnapshotStakes(balance zsw.Asset) (cpu, net, xfer zsw.Asset) {
 	cpu.Amount += firstHalf
 	net.Amount += remainder.Amount - firstHalf
 
-	return cpu, net, zsw.NewEOSAsset(100000)
+	return cpu, net, zsw.NewZSWAsset(100000)
 }
